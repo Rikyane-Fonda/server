@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('vacations', function (Blueprint $table) {
             $table->id();
+            $table->integer('employee_id');
+            $table->string('dayoff_type');
+            $table->string('status'); //paid dayoff or no pay dayoff
+            $table->datetime('start_date');
+            $table->datetime('end_date');
             $table->timestamps();
         });
     }
