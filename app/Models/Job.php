@@ -17,4 +17,8 @@ class Job extends Model
     public function departments(){
         return $this->belongsTo(Department::class);
     }
+
+    public function permissions(){
+        return $this->belongsToMany(Permission::class);
+    }
 }
