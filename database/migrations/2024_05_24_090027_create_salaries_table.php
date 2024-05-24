@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('period'); // this is the format: month/year
             $table->double('montant');
             $table->double('hourly_rate');
+            $table->string('status'); // Unpaid,Pending,paid
             $table->timestamps();
         });
     }
