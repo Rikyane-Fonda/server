@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('name');
+            $table->integer('job_id');
+            $table->integer('department_id');
             $table->string('name');
             $table->string('surname');
             $table->string('national_ID_card');
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('state');
             $table->string('postal_code');
             $table->string('Telephone');
-            $table->string('job');
             $table->dateTime('hiring_date');
             $table->dateTime('departure_date')->nullable();
             $table->timestamps();

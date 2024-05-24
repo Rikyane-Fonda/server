@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
+            $table->integer('employee_id');
+            $table->string('period'); // this is the format: month/year
+            $table->double('montant');
+            $table->double('hourly_rate');
             $table->timestamps();
         });
     }
