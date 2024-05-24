@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('remunerations', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id');
-            $table->string('period'); // this is the format: month/year
             $table->double('montant');
             $table->double('bonus');
             $table->double('pime');
             $table->string('motif_prime');
             $table->double('deduction');
             $table->string('motif_deduction');
+            $table->string('period'); // this is the format: month/year
             $table->timestamps();
         });
     }
