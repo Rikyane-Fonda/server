@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vacations', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id');
+            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->string('dayoff_type');
             $table->string('status'); //paid dayoff or no pay dayoff
             $table->datetime('start_date');

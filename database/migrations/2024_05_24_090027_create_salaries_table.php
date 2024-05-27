@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id');
+            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->double('montant');
             $table->double('hourly_rate');
             $table->string('status'); // Unpaid,Pending,paid

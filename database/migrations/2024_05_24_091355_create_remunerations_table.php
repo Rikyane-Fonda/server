@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('remunerations', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id');
+            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->double('montant');
-            $table->double('bonus');
-            $table->double('pime');
-            $table->string('motif_prime');
-            $table->double('deduction');
-            $table->string('motif_deduction');
-            $table->string('period'); // this is the format: month/year
+            $table->double('bonus')->nullable();
+            $table->double('pime')->nullable();
+            $table->string('motif_prime')->nullable();
+            $table->double('deduction')->nullable();
+            $table->string('motif_deduction')->nullable();
+            $table->string('period')->nullable(); // this is the format: month/year
             $table->timestamps();
         });
     }
