@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->string('dayoff_type');
-            $table->string('status'); //paid dayoff or no pay dayoff
+            $table->enum('status', ['paid', 'unpaid'])->default('unpaid'); //paid dayoff or no pay dayoff
             $table->datetime('start_date');
-            $table->datetime('end_date');
+            $table->datetime('end_date')->nullable();
             $table->timestamps();
         });
     }

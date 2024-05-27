@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('pointings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->timestamps('time_Of_entry');
-            $table->datetime('departure_time');
-            $table->time('number_of_Hours');
+            $table->string('duration');
             $table->timestamps();
         });
     }

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->double('montant');
-            $table->double('hourly_rate');
-            $table->string('status'); // Unpaid,Pending,paid
             $table->string('period'); // this is the format: month/year
             $table->timestamps();
         });

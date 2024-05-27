@@ -18,6 +18,10 @@ class Employee extends Model
         return $this->hasMany(Salary::class);
     }
 
+    public function payments(){
+        return $this->hasMany(Payment::class);
+    }
+
     public function vacations(){
         return $this->hasMany(Vacation::class);
     }
@@ -30,8 +34,8 @@ class Employee extends Model
         return $this->hasMany(Overtime::class);
     }
 
-    public function jobs(){
-        return $this->belongsTo(Job::class);
+    public function posts(){
+        return $this->belongsTo(Posts::class);
     }
 
     public function departments(){

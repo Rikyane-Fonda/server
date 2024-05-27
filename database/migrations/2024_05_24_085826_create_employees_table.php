@@ -16,15 +16,16 @@ return new class extends Migration
             $table->foreignId('department_id')->constrained('departments');
             $table->string('name');
             $table->string('surname');
-            $table->string('national_ID_card');
-            $table->string('email');
-            $table->string('adress');
-            $table->string('city');
-            $table->string('state');
-            $table->string('postal_code');
-            $table->string('Telephone');
-            $table->dateTime('hiring_date');
+            $table->string('national_ID_card')->nullable();
+            $table->string('email')->nullable();
+            $table->string('adress')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('Telephone')->nullable();
+            $table->dateTime('hiring_date')->nullable();
             $table->dateTime('departure_date')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
