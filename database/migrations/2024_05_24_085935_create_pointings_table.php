@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('pointings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->string('duration');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time')->nullable();
+            $table->decimal('hours', 5, 2)->default(0);
+            $table->decimal('pause_hours', 5, 2)->default(0);
             $table->timestamps();
         });
     }

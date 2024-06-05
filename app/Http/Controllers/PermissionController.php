@@ -8,59 +8,44 @@ use App\Http\Requests\UpdatePermissionRequest;
 
 class PermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        return response()->json($permissions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $permission = Permission::create($validatedData);
+        return response()->json($permission, 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePermissionRequest $request)
+    public function show($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        return response()->json($permission);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permission $permission)
+    public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $permission->update($validatedData);
+        return response()->json($permission);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Permission $permission)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePermissionRequest $request, Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permission $permission)
-    {
-        //
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
+        return response()->json(['message' => 'Permission deleted successfully']);
     }
 }

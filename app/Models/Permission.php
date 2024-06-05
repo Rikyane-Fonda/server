@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     use HasFactory;
-    
 
-    public function jobs(){
-        return $this->belongsToMany(Job::class);
+    protected $fillable = [
+        'name','description'
+    ];
+
+
+    public function posts(){
+        return $this->belongsToMany(Post::class);
     }
 }

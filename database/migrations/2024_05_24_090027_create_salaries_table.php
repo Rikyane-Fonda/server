@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->double('montant');
-            $table->string('period'); // this is the format: month/year
+            $table->double('base-salary');
+            $table->datetime('start_date');
+            $table->datetime('end_date')->nullable();
+            $table->integer('monthly_hours')->default(160);
             $table->timestamps();
         });
     }

@@ -9,9 +9,16 @@ class Job extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'department_id', 'name','description'
+    ];
 
     public function departments(){
         return $this->belongsTo(Department::class);
+    }
+
+    public function employees(){
+        return $this->hasMany(Employee::class);
     }
 
     public function permissions(){

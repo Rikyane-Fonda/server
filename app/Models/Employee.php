@@ -9,6 +9,10 @@ class Employee extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'department_id', 'name', 'surname', 'email', 'national_ID_card', 'adress', 'city', 'state', 'postal_code', 'Telephone', 'hiring_date', 'departure_date', 'status'
+    ];
+
 
     public function pointings(){
         return $this->hasMany(Pointing::class);
@@ -40,6 +44,16 @@ class Employee extends Model
 
     public function departments(){
         return $this->belongsTo(Department::class);
+    }
+
+    public function permissions()
+    {
+        return $this->post->permissions();
+    }
+
+    public function hasPermission($permission)
+    {
+        return $this->permissions()->where('name', $permission)->exists();
     }
 
 }

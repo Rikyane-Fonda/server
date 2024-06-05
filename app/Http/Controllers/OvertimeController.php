@@ -9,11 +9,12 @@ use App\Http\Requests\UpdateOvertimeRequest;
 class OvertimeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des heures supplémentaires
      */
     public function index()
     {
-        //
+        $overtimes = Overtime::all();
+        return response()->json($overtimes);
     }
 
     /**
@@ -25,19 +26,29 @@ class OvertimeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer une nouvelle heure supplémentaire
      */
     public function store(StoreOvertimeRequest $request)
     {
-        //
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date' => 'required|date',
+            'hours' => 'required|numeric',
+            'rate' => 'required|numeric',
+            'status' => 'required|in:valid,unvalid',
+        ]);
+
+        $overtime = Overtime::create($validatedData);
+        return response()->json($overtime, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher les détails d'une heure supplémentaire
      */
-    public function show(Overtime $overtime)
+    public function show($id)
     {
-        //
+        $overtime = Overtime::findOrFail($id);
+        return response()->json($overtime);
     }
 
     /**
@@ -49,18 +60,31 @@ class OvertimeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour une heure supplémentaire
      */
-    public function update(UpdateOvertimeRequest $request, Overtime $overtime)
+    public function update(UpdateOvertimeRequest $request, $id)
     {
-        //
+        $overtime = Overtime::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date' => 'required|date',
+            'hours' => 'required|numeric',
+            'rate' => 'required|numeric',
+            'status' => 'required|in:valid,unvalid',
+        ]);
+
+        $overtime->update($validatedData);
+        return response()->json($overtime);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer une heure supplémentaire
      */
     public function destroy(Overtime $overtime)
     {
-        //
+        $overtime = Overtime::findOrFail($id);
+        $overtime->delete();
+        return response()->json(['message' => 'Overtime deleted successfully']);
     }
 }

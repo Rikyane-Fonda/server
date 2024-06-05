@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('overtimes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->time('number_of_hours');
+            $table->date('date');
+            $table->decimal('hours', 5, 2);
+            $table->decimal('rate', 8, 2);
+            $table->enum('status', ['valid', 'unvalid'])->default('unvalid');
             $table->timestamps();
         });
     }

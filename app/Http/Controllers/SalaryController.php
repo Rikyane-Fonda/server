@@ -9,11 +9,12 @@ use App\Http\Requests\UpdateSalaryRequest;
 class SalaryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des salaires
      */
     public function index()
     {
-        //
+        $salaries = Salary::all();
+        return response()->json($salaries);
     }
 
     /**
@@ -25,19 +26,27 @@ class SalaryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer un nouveau salaire
      */
     public function store(StoreSalaryRequest $request)
     {
-        //
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'base_salary' => 'required|numeric',
+            'start_date' => 'required|date_format:Y-m-d H:i:s',
+        ]);
+
+        $salary = Salary::create($validatedData);
+        return response()->json($salary, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher les détails d'un salaire
      */
-    public function show(Salary $salary)
+    public function show($id)
     {
-        //
+        $salary = Salary::findOrFail($id);
+        return response()->json($salary);
     }
 
     /**
@@ -49,18 +58,29 @@ class SalaryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour un salaire
      */
-    public function update(UpdateSalaryRequest $request, Salary $salary)
+    public function update(UpdateSalaryRequest $request, $id)
     {
-        //
+        $salary = Salary::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'base_salary' => 'required|numeric',
+            'start_date' => 'required|date_format:Y-m-d H:i:s',
+        ]);
+
+        $salary->update($validatedData);
+        return response()->json($salary);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer un salaire
      */
     public function destroy(Salary $salary)
     {
-        //
+        $salary = Salary::findOrFail($id);
+        $salary->delete();
+        return response()->json(['message' => 'Salary deleted successfully']);
     }
 }

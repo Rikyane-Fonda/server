@@ -9,11 +9,12 @@ use App\Http\Requests\UpdateRemunerationRequest;
 class RemunerationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des rémunérations
      */
     public function index()
     {
-        //
+        $remunerations = Remuneration::all();
+        return response()->json($remunerations);
     }
 
     /**
@@ -25,19 +26,34 @@ class RemunerationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer une nouvelle rémunération
      */
     public function store(StoreRemunerationRequest $request)
     {
-        //
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date' => 'required|date',
+            'bonus' => 'nullable|numeric',
+            'prime' => 'nullable|numeric',
+            'motif_prime' => 'nullable|string',
+            'deduction' => 'nullable|numeric',
+            'motif_deduction' => 'nullable|string',
+        ]);
+
+        // Calculer le montant total de la rémunération
+        $validatedData['amount'] = ($validatedData['bonus'] ?? 0) + ($validatedData['prime'] ?? 0) - ($validatedData['deduction'] ?? 0);
+
+        $remuneration = Remuneration::create($validatedData);
+        return response()->json($remuneration, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher les détails d'une rémunération
      */
-    public function show(Remuneration $remuneration)
+    public function show($id)
     {
-        //
+        $remuneration = Remuneration::findOrFail($id);
+        return response()->json($remuneration);
     }
 
     /**
@@ -49,18 +65,36 @@ class RemunerationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour une rémunération
      */
-    public function update(UpdateRemunerationRequest $request, Remuneration $remuneration)
+    public function update(UpdateRemunerationRequest $request, Remuneration $id)
     {
-        //
+        $remuneration = Remuneration::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date' => 'required|date',
+            'bonus' => 'nullable|numeric',
+            'prime' => 'nullable|numeric',
+            'motif_prime' => 'nullable|string',
+            'deduction' => 'nullable|numeric',
+            'motif_deduction' => 'nullable|string',
+        ]);
+
+        // Calculer le montant total de la rémunération
+        $validatedData['amount'] = ($validatedData['bonus'] ?? 0) + ($validatedData['prime'] ?? 0) - ($validatedData['deduction'] ?? 0);
+
+        $remuneration->update($validatedData);
+        return response()->json($remuneration);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer une rémunération
      */
-    public function destroy(Remuneration $remuneration)
+    public function destroy($id)
     {
-        //
+        $remuneration = Remuneration::findOrFail($id);
+        $remuneration->delete();
+        return response()->json(['message' => 'Remuneration deleted successfully']);
     }
 }
